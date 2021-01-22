@@ -122,20 +122,24 @@ public class WinesRestService<V extends Comparable<? super V>> {
                                     Collectors.summingDouble(Component::getPercentage)
                             )
                     ));
-//                    .entrySet()
-//                    .stream()
-//                    .sorted(Collections.reverseOrder(Map.Entry.<K, V>comparingByValue()))
-//                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
 
             List<Map<String, String>> breakdowns = new ArrayList<>();
-            sums.forEach((key, value) -> {
-                Map<String, String> map = new HashMap<>();
-                map.put("percentage",key.toString());
-                map.put("yearVariety",value.toString());
-                breakdowns.add(map);
+            sums.forEach((year, obj) -> {
+                obj.forEach((region,percentage) -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("yearVariety", year.toString() + " - " + region);
+                    map.put("percentage", percentage.toString());
+                    breakdowns.add(map);
+                });
             });
 
-            JSONObject response = new JSONObject();
+        breakdowns.sort(Comparator.comparing(
+                c -> Double.valueOf(c.get("percentage")),
+                Comparator.nullsLast(Comparator.reverseOrder())
+        ));
+
+        JSONObject response = new JSONObject();
             response.put("breakDownType", "region");
             response.put("breakdown",breakdowns);
 
