@@ -140,7 +140,7 @@ public class WinesRestService<V extends Comparable<? super V>> {
         ));
 
         JSONObject response = new JSONObject();
-            response.put("breakDownType", "region");
+            response.put("breakDownType", "year-region");
             response.put("breakdown",breakdowns);
 
             return response.toString();
