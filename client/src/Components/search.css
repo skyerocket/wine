@@ -1,0 +1,62 @@
+.container {
+    height: 100%;
+    position: fixed;
+    margin : 10% auto;
+    left: 0;
+    right: 0;
+}
+
+.title{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 26px;
+    line-height: 32.5px;
+    color: #0F1010;
+}
+
+.wineIcon {
+    color: #3A3B3B;
+    height: 22px;
+    width: 16px;
+    margin-left: 12px;
+}
+
+.searchInput {
+    width: 624px;
+    height: 48px;
+    background: #FFFFFF;
+    border: rgba(255, 255, 255, 0.514);
+    border-radius: 3px;
+    margin-top: 24px;
+    align-self: center;
+}
+
+.searchIcon {
+    color: #CCCCCC;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 27px;
+    margin-left: 12px;
+    margin-right: 8px;
+}
+
+.listItem {
+    height: 56px;
+}
+
+.smallText {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 18px;
+    color: #0F1010;
+    opacity: 0.6;
+}
+
+.link {
+    color: inherit;
+    text-decoration: inherit;
+}

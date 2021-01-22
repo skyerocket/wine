@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class WinesRestService<V extends Comparable<? super V>> {
 
     private final ComponentRepository repository;
@@ -26,6 +27,11 @@ public class WinesRestService<V extends Comparable<? super V>> {
     @GetMapping(value = "/detail/{lotCode}", produces = "application/json")
     WineDetail oneWine(@PathVariable String lotCode) {
         return wineRepository.findByLotCode(lotCode);
+    }
+
+    @GetMapping(value = "/search", produces = "application/json")
+    int[] noWine() {
+        return new int[0];
     }
 
     @GetMapping(value = "/search/{param}", produces = "application/json")

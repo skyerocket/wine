@@ -9,6 +9,8 @@ Endpoints:
 
 `/api/detail/{lotCode}`
 
+`/api/search`
+
 `/api/search/{param}`
 
 `/api/breakdown/` 
