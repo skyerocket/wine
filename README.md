@@ -7,6 +7,7 @@
 3. `npm start`
 
 The web app runs on http://localhost:3000
+
 The web service runs on http://localhost:8080
 
 ## APIs
