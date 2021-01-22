@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,12 +25,23 @@ class LoadDatabase {
 
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
-    private void loadJson(String path, ComponentRepository repository) {
+    private void loadJson(String path,
+                          ComponentRepository componentRepository,
+                          WineDetailRepository wineDetailRepository) {
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser.parse(new FileReader(path));
             JSONObject jsonObject = (JSONObject) obj;
             String lotCode = jsonObject.get("lotCode").toString();
+
+            WineDetail wine = new WineDetail(lotCode,
+                    Double.valueOf(jsonObject.get("volume").toString()),
+                    jsonObject.get("description") != null ? jsonObject.get("description").toString() : "",
+                    jsonObject.get("tankCode").toString(),
+                    jsonObject.get("productState") != null ? jsonObject.get("productState").toString() : "",
+                    jsonObject.get("ownerName").toString());
+            log.info("preloading" + wineDetailRepository.save(wine));
+
             JSONArray components = (JSONArray) jsonObject.get("components");
             for (Object o : components) {
                 JSONObject comp = (JSONObject) o;
@@ -40,7 +50,7 @@ class LoadDatabase {
                         Integer.parseInt(comp.get("year").toString()),
                         comp.get("variety").toString(),
                         comp.get("region").toString());
-                log.info("preloading" + repository.save(component));
+                log.info("preloading" + componentRepository.save(component));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +58,8 @@ class LoadDatabase {
     }
 
     @Bean
-    CommandLineRunner initDatabase(ComponentRepository repository) {
+    CommandLineRunner initDatabase(ComponentRepository componentRepository,
+                                   WineDetailRepository wineDetailRepository) {
         return args -> {
 
             try (Stream<Path> walk = Files.walk(Paths.get("src/main/resources/static/"))) {
@@ -56,13 +67,11 @@ class LoadDatabase {
                 List<String> result = walk.filter(Files::isRegularFile)
                         .map(x -> x.toString()).collect(Collectors.toList());
 
-                result.forEach(path -> loadJson(path, repository));
+                result.forEach(path -> loadJson(path, componentRepository, wineDetailRepository));
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
         };
     }
 

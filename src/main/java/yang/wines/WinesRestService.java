@@ -1,22 +1,36 @@
 package yang.wines;
 
-import org.hibernate.annotations.Any;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toMap;
 
 @RestController
 @RequestMapping("/api")
 public class WinesRestService<V extends Comparable<? super V>> {
 
     private final ComponentRepository repository;
+    private final WineDetailRepository wineRepository;
 
-    WinesRestService(ComponentRepository componentRepository) {
+    WinesRestService(ComponentRepository componentRepository,
+                     WineDetailRepository wineRepository) {
         this.repository = componentRepository;
+        this.wineRepository = wineRepository;
+    }
+
+    @GetMapping(value = "/detail", produces = "application/json")
+    List<WineDetail> allWine() {
+        return wineRepository.findAll();
+    }
+
+    @GetMapping(value = "/detail/{lotCode}", produces = "application/json")
+    WineDetail oneWine(@PathVariable String lotCode) {
+        return wineRepository.findByLotCode(lotCode);
+    }
+
+    @GetMapping(value = "/search/{param}", produces = "application/json")
+    List<WineDetail> wine(@PathVariable String param) {
+        return wineRepository.findAllByDescriptionContainsOrLotCodeContaining(param, param);
     }
 
     @GetMapping("/breakdown")
@@ -24,7 +38,7 @@ public class WinesRestService<V extends Comparable<? super V>> {
         return repository.findAll();
     }
 
-    @GetMapping(value = "/breakdown/year/{lotCode}",produces = "application/json")
+    @GetMapping(value = "/breakdown/year/{lotCode}", produces = "application/json")
     String year(@PathVariable String lotCode) {
 
         List<Component> components = repository.findAllByLotCode(lotCode);
@@ -112,7 +126,6 @@ public class WinesRestService<V extends Comparable<? super V>> {
     }
 
     @GetMapping(value = "/breakdown/year-variety/{lotCode}", produces = "application/json")
-    <K>
     String yearVariety(@PathVariable String lotCode) {
 
             List<Component> components = repository.findAllByLotCode(lotCode);
@@ -122,7 +135,6 @@ public class WinesRestService<V extends Comparable<? super V>> {
                                     Collectors.summingDouble(Component::getPercentage)
                             )
                     ));
-
 
             List<Map<String, String>> breakdowns = new ArrayList<>();
             sums.forEach((year, obj) -> {
