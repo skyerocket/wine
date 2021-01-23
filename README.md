@@ -1,7 +1,16 @@
-# wine
+# Wine
 
-Run with `./mvnw spring-boot:run`
+## Instruction
+
+1. `./mvnw spring-boot:run`
+2. `cd client`
+3. `npm start`
+
+The web app runs on http://localhost:3000
+
 The web service runs on http://localhost:8080
+
+## APIs
 
 Endpoints:
 
