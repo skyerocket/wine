@@ -28,7 +28,19 @@ const INITIAL_STATE = {
     detail: {},
     breakdown : [],
     type : TYPE_YEAR,
-    index: 0,
+    index : 0,
+    showIndex : {
+        "year" : 0,
+        "variety" : 0,
+        "region" : 0,
+        "year-variety" : 0
+    },
+    showList: {
+        "year" : [],
+        "variety" : [],
+        "region" : [],
+        "year-variety" : []
+    }
 }
 
 const TYPE_INDEX_MAP = {
@@ -49,6 +61,8 @@ const TYPE_INDEX_MAP = {
             display : 'Year & Variety'
         },
 }
+
+const LIMIT = 5;
 
 const styles = () => ({
     container: {
@@ -173,8 +187,37 @@ function Detail(props) {
 
     const lotCode = props.match.params.lotCode
     const [state, setState] = useState(INITIAL_STATE);
-    const { detail, breakdown, type, index} = state;
+    const { detail, breakdown, type, index, showIndex , showList} = state;
     const { classes } = props; 
+
+    const showMore = () =>{
+        let newIndex = showIndex[type] + LIMIT
+        let newIndexField = {};
+        newIndexField[type] = newIndex;
+
+
+        let newShowList = [
+            ...showList[type], 
+            ...breakdown.slice(showIndex, newIndex)
+        ]
+        let newField= {};
+        newField[type] = newShowList
+
+        console.log(newShowList)
+
+
+        setState({
+            ...state,
+            showIndex : {
+                ...showIndex,
+                ...newIndexField
+            },
+            showList : {
+                ...showList,
+                ...newField,
+            }
+        })
+    };
 
     const handleChange = (event, newIndex) => {
         setState({
@@ -187,13 +230,25 @@ function Detail(props) {
     useEffect(() => {
         const detailUrl = `${DETAIL_URL}${lotCode}`;
         const breakdownUrl = `${BREAKDOWN_URL}${type}/${lotCode}`;
+        
         const fetchData = async() => {
             const resDetail = await axios(detailUrl);
             const resBreakdown = await axios(breakdownUrl);
+
+            let newShowList = showIndex[type] + 1 < LIMIT ? 
+                resBreakdown.data.breakdown.slice(0, LIMIT) :
+                resBreakdown.data.breakdown.slice(0, showIndex[type]);
+            let newField= {};
+            newField[type] = newShowList
+
             setState({
                 ...state,
                 detail : resDetail.data,
-                breakdown : resBreakdown.data,
+                breakdown : resBreakdown.data.breakdown,
+                showList: { 
+                    ...showList,
+                    ...newField
+                }
             })
         }
         fetchData();
@@ -203,7 +258,7 @@ function Detail(props) {
 
     return (
         <div className={classes.container}>
-            <Link className={classes.backIcon} to="/"><img src={backIcon} /></Link>
+            <Link className={classes.backIcon} to="/"><img src={backIcon} alt="backIcon"/></Link>
             <div className={classes.titleSection}>
                 <div className={classes.titleLeft}>
                     <Avatar className={classes.avatar}>W</Avatar>
@@ -234,11 +289,11 @@ function Detail(props) {
             </div>
             <AntTabs value={index} onChange={handleChange}>
                 {Object.keys(TYPE_INDEX_MAP).map((key) => (
-                    <AntTab label={TYPE_INDEX_MAP[key].display} />
+                    <AntTab key={key} label={TYPE_INDEX_MAP[key].display} />
                 ))}
             </AntTabs>
             <TableContainer component={Paper} className={classes.tableContainer}>
-                <Table>
+                <Table stickyHeader>
                     <TableHead className={classes.tableHead}>
                         <TableRow className={classes.tableRow}>
                             <TableCell className={classes.tableCell}>{TYPE_INDEX_MAP[index].display}</TableCell>
@@ -246,12 +301,14 @@ function Detail(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody className={classes.tableBody}>
-                        {breakdown.breakdown ? breakdown.breakdown.map(row => (
-                            <TableRow className={classes.tableRow}>
+                        {showList[type] ? showList[type].map((row,i) => (
+                            <TableRow key={i} className={classes.tableRow}>
                                 <TableCell className={classes.tableCell}>{row[type]}</TableCell>
                                 <TableCell className={classes.tableCell} align="right">{row.percentage}</TableCell>
                             </TableRow>
-                        )) : null}
+                        ))
+                         : null}
+                    { showList[type] && (showList[type].length < breakdown.length) && <TableRow><TableCell onClick={showMore}>Show More</TableCell></TableRow> }
                     </TableBody>
                 </Table>
             </TableContainer>
