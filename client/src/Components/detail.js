@@ -13,8 +13,10 @@ import { Fab,
     TableContainer,
     TableHead,
     TableRow,
-    Paper } from '@material-ui/core';
+    Paper,
+    Grid } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import backIcon from '../assets/back.svg';
 
 const DETAIL_URL = "http://localhost:8080/api/detail/";
@@ -143,6 +145,20 @@ const styles = () => ({
     },
     tableHead: {
         fontWeight: 400,
+    },
+    showMore: {
+        
+    },
+    showMoreCell : {
+        color : "#00928D",
+        fontFamily : "Montserrat",
+        fontStyle : "normal",
+        fontWeight : "normal",
+        fontSize : 14,
+        justifyContent: 'center',
+        '&:hover': {
+            cursor: 'pointer'
+          },
     }
 })
 
@@ -235,7 +251,7 @@ function Detail(props) {
             const resDetail = await axios(detailUrl);
             const resBreakdown = await axios(breakdownUrl);
 
-            let newShowList = showIndex[type] + 1 < LIMIT ? 
+            let newShowList = showIndex[type] == 0 ? 
                 resBreakdown.data.breakdown.slice(0, LIMIT) :
                 resBreakdown.data.breakdown.slice(0, showIndex[type]);
             let newField= {};
@@ -308,7 +324,12 @@ function Detail(props) {
                             </TableRow>
                         ))
                          : null}
-                    { showList[type] && (showList[type].length < breakdown.length) && <TableRow><TableCell onClick={showMore}>Show More</TableCell></TableRow> }
+                    { showList[type] && (showList[type].length < breakdown.length) 
+                    &&  <TableCell onClick={showMore} colSpan={2}>
+                            <Grid colspan={2} className={classes.showMoreCell} container direction="row" alignItems="center">
+                                Show More<ExpandMoreIcon />
+                            </Grid>
+                        </TableCell>}
                     </TableBody>
                 </Table>
             </TableContainer>
