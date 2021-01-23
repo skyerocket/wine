@@ -14,7 +14,7 @@ function App() {
       <div className="App">
         <Switch>
               <Route exact path="/" component={Search} />
-              <Route path="/detail" component={Detail} />
+              <Route path="/detail/:lotCode" component={Detail} />
               <Route component={NotFound} />
           </Switch>
       </div>

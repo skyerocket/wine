@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import axios from 'axios';
+
+import { InputBase,
+    Divider,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemSecondaryAction } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
 import './search.css';
 import wineIcon from '../assets/wine.svg';
 import searchIcon from '../assets/search.svg';
-import InputBase from '@material-ui/core/InputBase';
-import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import { Link } from "react-router-dom";
+    
 
 
-const useStyles = makeStyles((theme) => ({
+const SEARCH_URL = "http://localhost:8080/api/search/";
+
+const INITIAL_STATE = {
+    loading : false,
+    query : "",
+    cancel : "",
+    results : []
+}
+
+const useStyles = makeStyles(() => ({
     list: {
         width: 624,
         backgroundColor: "#fff",
@@ -42,15 +54,6 @@ const useStyles = makeStyles((theme) => ({
         color: "#3A3B3B",
     }
   }));
-
-const SEARCH_URL = "http://localhost:8080/api/search/";
-
-const INITIAL_STATE = {
-    loading : false,
-    query : "",
-    cancel : "",
-    results : []
-}
 
 function Search() {
 
@@ -87,14 +90,14 @@ function Search() {
             });
     };
 
-    console.log(state.results)
-
     useEffect(() => {
         fetchSearchResults(state.query);
     }, [state.query])
 
     const Item = ( { result, i } ) => (
-        <Link className="link" to="/detail">
+        <Link 
+        className="link" 
+        to={`/detail/${result.lotCode}`}>
             <ListItem className="listItem" button key={i}>
                 <ListItemText 
                 classes={{ 
