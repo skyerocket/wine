@@ -211,16 +211,9 @@ function Detail(props) {
         let newIndexField = {};
         newIndexField[type] = newIndex;
 
-
-        let newShowList = [
-            ...showList[type], 
-            ...breakdown.slice(showIndex, newIndex)
-        ]
+        let newShowList = newIndex + 1 >= breakdown.length? breakdown : breakdown.slice(0, newIndex);
         let newField= {};
-        newField[type] = newShowList
-
-        console.log(newShowList)
-
+        newField[type] = newShowList;
 
         setState({
             ...state,
@@ -251,11 +244,12 @@ function Detail(props) {
             const resDetail = await axios(detailUrl);
             const resBreakdown = await axios(breakdownUrl);
 
-            let newShowList = showIndex[type] == 0 ? 
-                resBreakdown.data.breakdown.slice(0, LIMIT) :
-                resBreakdown.data.breakdown.slice(0, showIndex[type]);
             let newField= {};
-            newField[type] = newShowList
+            newField[type] = showIndex[type] == 0 ? 
+            resBreakdown.data.breakdown.slice(0, LIMIT) : 
+            showIndex[type] + 1 >= resBreakdown.data.breakdown.length ?
+            resBreakdown.data.breakdown :
+            resBreakdown.data.breakdown.slice(0, showIndex[type])
 
             setState({
                 ...state,
@@ -269,8 +263,6 @@ function Detail(props) {
         }
         fetchData();
     }, [type]);
-
-    console.log(state);
 
     return (
         <div className={classes.container}>
@@ -325,11 +317,13 @@ function Detail(props) {
                         ))
                          : null}
                     { showList[type] && (showList[type].length < breakdown.length) 
-                    &&  <TableCell onClick={showMore} colSpan={2}>
-                            <Grid colspan={2} className={classes.showMoreCell} container direction="row" alignItems="center">
-                                Show More<ExpandMoreIcon />
-                            </Grid>
-                        </TableCell>}
+                    &&  <TableRow>
+                            <TableCell onClick={showMore} colSpan={2}>
+                                <Grid colSpan={2} className={classes.showMoreCell} container direction="row" alignItems="center">
+                                    Show More<ExpandMoreIcon />
+                                </Grid>
+                            </TableCell>
+                        </TableRow>}
                     </TableBody>
                 </Table>
             </TableContainer>
