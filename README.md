@@ -12,7 +12,7 @@ The web service runs on http://localhost:8080
 
 ## Demonstration
 
-!['demonstration'](demonstration.gif)
+!['demonstration'](/demonstration.gif)
 
 Note these things aren't achieved: 
 
