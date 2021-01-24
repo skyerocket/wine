@@ -8,14 +8,11 @@ import { InputBase,
     ListItem,
     ListItemText,
     ListItemSecondaryAction } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
-import './search.css';
+import { withStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search';
 import wineIcon from '../assets/wine.svg';
-import searchIcon from '../assets/search.svg';
     
-
-
 const SEARCH_URL = "http://localhost:8080/api/search/";
 
 const INITIAL_STATE = {
@@ -25,7 +22,45 @@ const INITIAL_STATE = {
     results : []
 }
 
-const useStyles = makeStyles(() => ({
+const styles = () => ({
+    container: {
+        height: "100%",
+        position: "fixed",
+        margin : "10% auto",
+        left: 0,
+        right: 0,
+        textAlign: "center",
+    },
+    title: {
+        fontFamily: "Montserrat",
+        fontStyle: "normal",
+        fontWeight: 300,
+        fontSize: 26,
+        color: "#0F1010",
+    },
+    wineIcon: {
+        color: "#3A3B3B",
+        height: 22,
+        width: 16,
+        marginLeft: 12,
+    },
+    searchInput: {
+        width: 624,
+        height: 48,
+        background: "#FFFFFF",
+        border: "rgba(255, 255, 255, 0.514)",
+        borderRadius: 3,
+        marginTop: 24,
+        alignSelf: "center",
+    },
+    searchIcon: {
+        color: "#CCC",
+        fontStyle: "normal",
+        fontWeight: "normal",
+        fontSize: 20,
+        marginLeft: 12,
+        marginRight: 8,
+    },
     list: {
         width: 624,
         backgroundColor: "#fff",
@@ -38,6 +73,9 @@ const useStyles = makeStyles(() => ({
         border: "1px #f5f5f54d solid",
         borderRadius: 2,
         boxShadow: "0px 0px 3px #e2dede"
+    },
+    listItem: {
+        height: 56
     },
     listItemTitle: {
         fontFamily: "Montserrat",
@@ -52,14 +90,25 @@ const useStyles = makeStyles(() => ({
         fontWeight: 300,
         fontSize: 13,
         color: "#3A3B3B",
+    },
+    smallText: {
+        fontFamily: "Montserrat",
+        fontStyle: "normal",
+        fontWeight: 300,
+        fontSize: 13,
+        color: "#0F1010",
+        opacity: 0.6,
+    },
+    link: {
+        color: "inherit",
+        textDecoration: "inherit",
     }
-  }));
+  });
 
-function Search() {
+function Search(props) {
 
     const [state, setState] = useState(INITIAL_STATE);
-
-    const classes = useStyles();
+    const { classes } = props;     ;
 
     function fetchSearchResults(queryParam) {
 
@@ -96,9 +145,9 @@ function Search() {
 
     const Item = ( { result, i } ) => (
         <Link 
-        className="link" 
+        className={classes.link} 
         to={`/detail/${result.lotCode}`}>
-            <ListItem className="listItem" button key={i}>
+            <ListItem className={classes.listItem} button key={i}>
                 <ListItemText 
                 classes={{ 
                     primary: classes.listItemTitle,
@@ -107,20 +156,20 @@ function Search() {
                 primary={result.lotCode} 
                 secondary={result.description} />
                 <ListItemSecondaryAction>
-                    <div className="smallText">{result.volume.toLocaleString('en')}</div>
-                    <div className="smallText">{result.tankCode}</div>
+                    <div className={classes.smallText}>{result.volume.toLocaleString('en')}</div>
+                    <div className={classes.smallText}>{result.tankCode}</div>
                 </ListItemSecondaryAction>
             </ListItem>
         </Link>
     )
 
     return (
-        <div className="container">
-            <div className="title">Wine search<img src={wineIcon} alt="Wine Icon" className="wineIcon" /></div>
+        <div className={classes.container}>
+            <div className={classes.title}>Wine search<img src={wineIcon} alt="Wine Icon" className={classes.wineIcon} /></div>
             <InputBase
-                className="searchInput"
+                className={classes.searchInput}
                 placeholder="Search by lot code and description......"
-                startAdornment={<img src={searchIcon} className="searchIcon" />}
+                startAdornment={<SearchIcon className={classes.searchIcon}/>}
                 value={state.query}
                 onChange={ (event) => {
                     const query = event.target.value;
@@ -156,4 +205,4 @@ function Search() {
     );
 }
 
-export default Search;
+export default withStyles(styles)(Search);

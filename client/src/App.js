@@ -1,10 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 import 'typeface-montserrat'
 import 'fontsource-roboto';
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
-import Search from './Components/search';
-import Detail from './Components/detail';
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Search from './Components/Search';
+import Detail from './Components/Detail';
 
 const NotFound = () => <div>Not found</div>
 

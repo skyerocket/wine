@@ -16,8 +16,8 @@ import { Fab,
     Paper,
     Grid } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import backIcon from '../assets/back.svg';
 
 const DETAIL_URL = "http://localhost:8080/api/detail/";
 const BREAKDOWN_URL = "http://localhost:8080/api/breakdown/";
@@ -71,7 +71,7 @@ const styles = () => ({
         height: "100%",
         width: "50%",
         position: "fixed",
-        margin : "1rem auto",
+        margin : "2rem auto",
         left: 0,
         right: 0,
         fontFamily: "Montserrat",
@@ -83,7 +83,6 @@ const styles = () => ({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        marginTop: 10
     },
     titleLeft: {
         display : 'flex',
@@ -101,7 +100,7 @@ const styles = () => ({
         color: '#fff',
     },
     backIcon: {
-        marginLeft: 10
+        marginLeft: 10,
     },
     des: {
         color: '#242525',
@@ -228,8 +227,6 @@ function Detail(props) {
         })
     };
 
-    console.log(state)
-
     const handleChange = (event, newIndex) => {
         setState({
             ...state,
@@ -268,7 +265,7 @@ function Detail(props) {
 
     return (
         <div className={classes.container}>
-            <Link className={classes.backIcon} to="/"><img src={backIcon} alt="backIcon"/></Link>
+            <Link className={classes.backIcon} to="/"><ArrowBackIcon /></Link>
             <div className={classes.titleSection}>
                 <div className={classes.titleLeft}>
                     <Avatar className={classes.avatar}>W</Avatar>
