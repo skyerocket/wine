@@ -239,7 +239,7 @@ function Detail(props) {
         const detailUrl = `${DETAIL_URL}${lotCode}`;
         const breakdownUrl = `${BREAKDOWN_URL}${type}/${lotCode}`;
         
-        const fetchData = async() => {
+        (async() => {
             const resDetail = await axios(detailUrl);
             const resBreakdown = await axios(breakdownUrl);
 
@@ -259,8 +259,7 @@ function Detail(props) {
                     ...newField
                 }
             })
-        }
-        fetchData();
+        })();
     }, [type]);
 
     return (

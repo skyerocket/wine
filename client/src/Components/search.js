@@ -16,7 +16,6 @@ import wineIcon from '../assets/wine.svg';
 const SEARCH_URL = "http://localhost:8080/api/search/";
 
 const INITIAL_STATE = {
-    loading : false,
     query : "",
     cancel : "",
     results : []
@@ -108,40 +107,39 @@ const styles = () => ({
 function Search(props) {
 
     const [state, setState] = useState(INITIAL_STATE);
-    const { classes } = props;     ;
+    const { classes } = props;
+    const { query, cancel, results } = state;
 
-    function fetchSearchResults(queryParam) {
+    const hightlightSearchText = (query, texts) => {
+        
+    };
 
-        const searchUrl = `${SEARCH_URL}${queryParam}`;
-        state.cancel ? state.cancel.cancel() : setState({
+    const fetchSearchResults = query => {
+
+        const searchUrl = `${SEARCH_URL}${query}`;
+        cancel ? cancel.cancel() : setState({
             ...state,
             cancel : axios.CancelToken.source()
         })
     
         axios
             .get(searchUrl, {
-                cancelToken: state.cancel.token,
+                cancelToken: cancel.token,
             })
             .then((res) => {
                 setState({
                     ...state,
-                    loading : false,
                     results : res.data,
                 })
             })
             .catch((error) => {
-                if (axios.isCancel(error) || error) {
-                    setState({
-                        ...state,
-                        loading : false 
-                    })
-                }
+                console.log(error);
             });
     };
 
     useEffect(() => {
-        fetchSearchResults(state.query);
-    }, [state.query])
+        fetchSearchResults(query);
+    }, [query])
 
     const Item = ( { result, i } ) => (
         <Link 
@@ -161,7 +159,7 @@ function Search(props) {
                 </ListItemSecondaryAction>
             </ListItem>
         </Link>
-    )
+    );
 
     return (
         <div className={classes.container}>
@@ -170,26 +168,23 @@ function Search(props) {
                 className={classes.searchInput}
                 placeholder="Search by lot code and description......"
                 startAdornment={<SearchIcon className={classes.searchIcon}/>}
-                value={state.query}
+                value={query}
                 onChange={ (event) => {
                     const query = event.target.value;
                     query ? setState({
                         ...state,
                         query,
-                        loading : true,
-                        message : ""
                     }) : setState({
                         ...state,
                         query,
                         results : [],
-                        message : ""
                     })
                 }}
             />
-            {state.results.length > 0 ? 
+            {results.length > 0 ? 
             <List className={classes.list} aria-label="cards">
-                {state.results.map((result, i) => (
-                    state.results.length !== i + 1 ?  (
+                {results.map((result, i) => (
+                    results.length !== i + 1 ?  (
                         <React.Fragment key={i}>
                             <Item result={result} key={i}/>
                             <Divider variant="middle" />
