@@ -12,7 +12,7 @@ The web service runs on http://localhost:8080
 
 ## Demonstration
 
-!['demonstration'](https://gph.is/g/aNLGMK1)
+!['demonstration'](https://media.giphy.com/media/fgNE8YXPToG6Hs1e4j/giphy.gif)
 
 Note these things aren't achieved: 
 
