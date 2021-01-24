@@ -4,7 +4,7 @@
 
 1. `./mvnw spring-boot:run`
 2. `cd client`
-3. `npm start`
+3. `npm install && npm start`
 
 The web app runs on http://localhost:3000
 
