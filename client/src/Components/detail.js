@@ -14,7 +14,7 @@ import { Fab,
     TableHead,
     TableRow,
     Paper,
-    Grid } from '@material-ui/core';
+    Grid, } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -244,7 +244,7 @@ function Detail(props) {
             const resBreakdown = await axios(breakdownUrl);
 
             let newField= {};
-            newField[type] = showIndex[type] == 0 ? 
+            newField[type] = showIndex[type] === 0 ? 
             resBreakdown.data.breakdown.slice(0, LIMIT) : 
             showIndex[type] + 1 + LIMIT >= resBreakdown.data.breakdown.length ?
             resBreakdown.data.breakdown :
@@ -313,7 +313,7 @@ function Detail(props) {
                                 <TableCell className={classes.tableCell} align="right">{row.percentage}</TableCell>
                             </TableRow>
                         ))
-                         : null}
+                        : null}
                     { showList[type] && (showList[type].length < breakdown.length) 
                     &&  <TableRow>
                             <TableCell onClick={showMore} colSpan={2}>

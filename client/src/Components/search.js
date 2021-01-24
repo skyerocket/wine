@@ -7,7 +7,8 @@ import { InputBase,
     List,
     ListItem,
     ListItemText,
-    ListItemSecondaryAction } from '@material-ui/core';
+    ListItemSecondaryAction 
+} from '@material-ui/core';
 
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -109,10 +110,6 @@ function Search(props) {
     const [state, setState] = useState(INITIAL_STATE);
     const { classes } = props;
     const { query, cancel, results } = state;
-
-    const hightlightSearchText = (query, texts) => {
-
-    };
 
     useEffect(() => {
         const searchUrl = `${SEARCH_URL}${query}`;
