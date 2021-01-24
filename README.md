@@ -22,7 +22,7 @@ Note these things aren't achieved:
 
 3) AWS Hosting. The Java microservices are likely to be pushed to AWS using EKS/ECS, not familiar how.
 
-Backend uses Java, JPA, H2
+Backend uses Spring Boot, JPA, H2
 
 Frontend uses React, Material UI
 
