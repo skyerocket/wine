@@ -146,7 +146,7 @@ public class WinesRestService<V extends Comparable<? super V>> {
             sums.forEach((year, obj) -> {
                 obj.forEach((region,percentage) -> {
                     Map<String, String> map = new HashMap<>();
-                    map.put("yearVariety", year.toString() + " - " + region);
+                    map.put("year-variety", year.toString() + " - " + region);
                     map.put("percentage", percentage.toString());
                     breakdowns.add(map);
                 });
@@ -158,7 +158,7 @@ public class WinesRestService<V extends Comparable<? super V>> {
         ));
 
         JSONObject response = new JSONObject();
-            response.put("breakDownType", "year-region");
+            response.put("breakDownType", "year-variety");
             response.put("breakdown",breakdowns);
 
             return response.toString();

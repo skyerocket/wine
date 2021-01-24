@@ -211,7 +211,7 @@ function Detail(props) {
         let newIndexField = {};
         newIndexField[type] = newIndex;
 
-        let newShowList = newIndex + 1 >= breakdown.length? breakdown : breakdown.slice(0, newIndex);
+        let newShowList = newIndex + 1 + LIMIT >= breakdown.length? breakdown : breakdown.slice(0, newIndex);
         let newField= {};
         newField[type] = newShowList;
 
@@ -227,6 +227,8 @@ function Detail(props) {
             }
         })
     };
+
+    console.log(state)
 
     const handleChange = (event, newIndex) => {
         setState({
@@ -247,7 +249,7 @@ function Detail(props) {
             let newField= {};
             newField[type] = showIndex[type] == 0 ? 
             resBreakdown.data.breakdown.slice(0, LIMIT) : 
-            showIndex[type] + 1 >= resBreakdown.data.breakdown.length ?
+            showIndex[type] + 1 + LIMIT >= resBreakdown.data.breakdown.length ?
             resBreakdown.data.breakdown :
             resBreakdown.data.breakdown.slice(0, showIndex[type])
 
