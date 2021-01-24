@@ -111,11 +111,10 @@ function Search(props) {
     const { query, cancel, results } = state;
 
     const hightlightSearchText = (query, texts) => {
-        
+
     };
 
-    const fetchSearchResults = query => {
-
+    useEffect(() => {
         const searchUrl = `${SEARCH_URL}${query}`;
         cancel ? cancel.cancel() : setState({
             ...state,
@@ -135,10 +134,6 @@ function Search(props) {
             .catch((error) => {
                 console.log(error);
             });
-    };
-
-    useEffect(() => {
-        fetchSearchResults(query);
     }, [query])
 
     const Item = ( { result, i } ) => (
