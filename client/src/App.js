@@ -2,8 +2,8 @@ import './App.css';
 import 'typeface-montserrat'
 import 'fontsource-roboto';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Search from './Components/Search';
-import Detail from './Components/Detail';
+import Search from './Components/search';
+import Detail from './Components/detail';
 
 const NotFound = () => <div>Not found</div>
 
