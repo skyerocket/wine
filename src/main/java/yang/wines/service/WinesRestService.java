@@ -1,7 +1,11 @@
-package yang.wines;
+package yang.wines.service;
 
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.*;
+import yang.wines.model.*;
+import yang.wines.repository.ComponentRepository;
+import yang.wines.repository.WineDetailRepository;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

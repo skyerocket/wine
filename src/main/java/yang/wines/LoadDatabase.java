@@ -9,6 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import yang.wines.model.Component;
+import yang.wines.model.WineDetail;
+import yang.wines.repository.ComponentRepository;
+import yang.wines.repository.WineDetailRepository;
 
 import java.io.FileReader;
 import java.io.IOException;

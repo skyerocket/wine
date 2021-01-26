@@ -1,4 +1,4 @@
-package yang.wines;
+package yang.wines.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
