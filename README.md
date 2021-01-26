@@ -10,6 +10,22 @@ The web app runs on http://localhost:3000
 
 The web service runs on http://localhost:8080
 
+## Demonstration
+
+!['demonstration'](https://media.giphy.com/media/fgNE8YXPToG6Hs1e4j/giphy.gif)
+
+Note these things aren't achieved: 
+
+1) Highlight search text. It should be a backend Elasticsearch work and I don't know how. 
+
+2) Animation. The Material UI transition effects cause strict-mode gives error.
+
+3) AWS Hosting. The Java microservices are likely to be pushed to AWS using EKS/ECS, not familiar how.
+
+Backend: Spring Boot, H2
+
+Frontend: React, Material UI
+
 ## APIs
 
 Endpoints:
